@@ -11,12 +11,15 @@ my( $module, $version ) = @ARGV;
 
 unless( defined $module ){ `perldoc $0`;exit }
 
-#get local version of module
-#print verl($module); #test
+my $p = verm($module);
 
 if( defined $version ){ say "$p->{$version}.tar.gz" }
 else { print Dumper $p }
 
+#get local version of module
+my $l = {};
+$l->{local} = verl($module);
+print Dumper $l;
 
 =head1 NAME
 
