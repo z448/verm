@@ -1,6 +1,7 @@
 package App::Verm;
 use Data::Dumper;
 use HTTP::Tiny;
+use Config;
 
 use warnings;
 use strict;
@@ -13,8 +14,24 @@ App::Verm - get path to specific version of module
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw< verm >;
+our @EXPORT_OK = qw< verm verl >;
 our $VERSION = '0.01';
+
+
+
+my $version_local = sub {
+    my $module = shift;
+
+    for my $path( qw< installsitelib installsitearch > ){
+        $module =~ s/\:\:/\//g; 
+        next unless -f "$Config{$path}/$module.pm";
+        open(my $fh,'<',"$Config{$path}/$module.pm") || die "cant open: $!";
+        while( <$fh> ){
+            if(/(\:|\$)(VERSION)(.*?\=)(.*?)([0-9].*?)(\s|'|"|;)(.*)/){ return $5 }
+        }
+    }
+    return "$ARGV[0] module is not installed in $Config{installsitelib} or $Config{installsitearch}";
+};
 
 # < module name > use Tiny or curl to get content
 my $get = sub {
@@ -51,6 +68,8 @@ my $version_path = sub {
     return \%version;
 };
 
+
+
 =head1 FUNCTIONS
 
 =head2 verp
@@ -61,9 +80,22 @@ Takes module name, returns hash ref: version => /path/to/version
 
 =cut
 
+sub verl {
+    return $version_local->(shift);
+}
+
 sub verm {
     return $version_path->(shift);
 }
+
+
+
+
+
+
+
+
+
 
 =head1 AUTHOR
 

@@ -5,13 +5,15 @@ use warnings;
 use strict;
 
 use Data::Dumper;
-use App::Verm qw< verm >;
+use App::Verm qw< verm verl >;
 
 my( $module, $version ) = @ARGV;
 
 unless( defined $module ){ `perldoc $0`;exit }
 
-my $p = verm($module);
+#get local version of module
+#print verl($module); #test
+
 if( defined $version ){ say "$p->{$version}.tar.gz" }
 else { print Dumper $p }
 
