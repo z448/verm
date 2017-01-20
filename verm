@@ -14,12 +14,14 @@ unless( defined $module ){ `perldoc $0`;exit }
 my $p = verm($module);
 
 if( defined $version ){ say "$p->{$version}.tar.gz" }
-else { print Dumper $p }
+else { 
+    print Dumper $p;
+    my $l = {};
+    $l->{local} = verl($module);
+    print Dumper $l;
+}
 
 #get local version of module
-my $l = {};
-$l->{local} = verl($module);
-print Dumper $l;
 
 =head1 NAME
 
