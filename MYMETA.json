@@ -30,6 +30,7 @@
       },
       "runtime" : {
          "requires" : {
+            "App::cpanminus" : "0",
             "Data::Dumper" : "0",
             "HTTP::Tiny" : "0",
             "perl" : "5.01"
