@@ -1,0 +1,41 @@
+#!/usr/bin/env perl
+
+use 5.010;
+use warnings;
+use strict;
+
+use Data::Dumper;
+use App::Verm qw< verm >;
+
+my( $module, $version ) = @ARGV;
+
+unless( defined $module ){ `perldoc $0`;exit }
+
+my $p = verm($module);
+if( defined $version ){ say "$p->{$version}.tar.gz" }
+else { print Dumper $p }
+
+
+=head1 NAME
+
+verm - get specific version of distribution
+
+=head1 DESCRIPTION
+
+Use module name as 1st parameter to print module versions. Add specific version as 2nd parameter and pipe it to cpanm to install it. 
+
+=head1 SYSOPSIS
+
+Print all versions of module distribution
+
+C<verm Module>
+
+Then use cpanm to install specific version.
+
+C<verm Module version | cpanm>
+
+=head1 DEPENDENCIES
+
+C<App::cpanminus>, libssl
+
+=cut
