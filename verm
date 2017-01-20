@@ -13,7 +13,7 @@ unless( defined $module ){ `perldoc $0`;exit }
 
 my $p = verm($module);
 
-if( defined $version ){ say "$p->{$version}.tar.gz" }
+if( defined $version ){ say "https://cpan.metacpan.org/authors/id/$p->{$version}.tar.gz" }
 else { 
     print Dumper $p;
     my $l = {};

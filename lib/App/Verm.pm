@@ -62,7 +62,13 @@ my $version_path = sub {
         if(/Jump to version/){ $field = 1 }
         if( /(value|label)\=\"(.*?)\/(.*?)\/.*">(.*?)\ / ){
                 return \%version if( $field == 1 and defined $version{"$4"});
-                unless( $field == 0 or defined $version{"$4"} ){ $version{"$4"} = "$2/$3" }
+                unless( $field == 0 or defined $version{"$4"} ){ 
+                    my $version = $4;
+                    my $author = "$2"; 
+                    my $dist = $3;
+                    my $path = $author; $path =~ s/(.)(.)(.*)/$1\/$1$2/;
+                    $version{"$version"} = "$path/$author/$dist";
+                }
         }
     }
     return \%version;
