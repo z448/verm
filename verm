@@ -11,17 +11,17 @@ my( $module, $version ) = @ARGV;
 
 unless( defined $module ){ `perldoc $0`;exit }
 
-my $p = verm($module);
+my $m = verm($module);
 
-if( defined $version ){ say "https://cpan.metacpan.org/authors/id/$p->{$version}.tar.gz" }
-else { 
-    print Dumper $p;
+if( defined $version ){ 
+    my @p = grep{ $_->{version} =~ /.?$version$/ } @{$m};
+    say "https://cpan.metacpan.org/authors/id/$p[0]->{path}/$p[0]->{author}/$p[0]->{dist}.tar.gz";
+} else { 
+    print Dumper $m;
     my $l = {};
     $l->{local} = verl($module);
     print Dumper $l;
 }
-
-#get local version of module
 
 =head1 NAME
 

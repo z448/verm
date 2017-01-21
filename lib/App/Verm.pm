@@ -56,6 +56,7 @@ my $version_path = sub {
     my $res = $get->($module);
     my $field = 0;
     my %version = ();
+    my @m = ();
 
     open(my $fh,'<',\$res->());
     while( <$fh> ){
@@ -63,15 +64,23 @@ my $version_path = sub {
         if( /(value|label)\=\"(.*?)\/(.*?)\/.*">(.*?)\ / ){
                 return \%version if( $field == 1 and defined $version{"$4"});
                 unless( $field == 0 or defined $version{"$4"} ){ 
-                    my $version = $4;
-                    my $author = "$2"; 
-                    my $dist = $3;
-                    my $path = $author; $path =~ s/(.)(.)(.*)/$1\/$1$2/;
-                    $version{"$version"} = "$path/$author/$dist";
+                    my %m = ();
+                    $m{version} = $4;
+                    $m{author} = $2;
+                    $m{dist} = $3;
+                    #my $version = $4;
+                    #my $author = "$2"; 
+                    #my $dist = $3;
+                    $m{path} = $m{author}; $m{path} =~ s/(.)(.)(.*)/$1\/$1$2/;
+                    #my $path = $author; $path =~ s/(.)(.)(.*)/$1\/$1$2/;
+                    #$version{"$version"} = "$path/$author/$dist";
+                    #$version{"$version"} = $version;
+                    push @m, {%m};
                 }
         }
     }
-    return \%version;
+    return \@m;
+    #return \%version;
 };
 
 
